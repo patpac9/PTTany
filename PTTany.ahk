@@ -7,7 +7,7 @@ Return
 Control:
 
 SetBatchLines -1
-SplashTextOn,,, Suche Audio Quellen...
+SplashTextOn,,, Searching for Audio Sources...
 
 ControlTypes = VOLUME
 
@@ -59,7 +59,7 @@ Loop % LV_GetCount("Col")  ; Auto-size each column to fit its contents.
 
 SplashTextOff
 Gui, Add, Button, Default, Okay
-Gui, Add, Text, vtext12, PPT Key
+Gui, Add, Text, vtext12, PTT Key
 Gui, Add, Hotkey, vMainbutton, NumpadSub
 Gui, Show
 return
@@ -70,7 +70,7 @@ if ("ListView_ItemFocus(gMyListView, Item, Selected)")
     LV_GetText(RowText, A_EventInfo)  ; Get the text from the row's first field.
     LV_GetText(RowText1, A_EventInfo, 2)
     LV_GetText(RowText2, A_EventInfo, 4)
-    ToolTip Sie verwenden nun "%RowText1%" von Mixer "%RowText%"
+    ToolTip you using now "%RowText1%" from Mixer "%RowText%"
     SetTimer, RemoveToolTip, -3000
 }
 return
@@ -89,17 +89,17 @@ Vollaut := 100
 Vollaut := RowText2
 }
 If (!RowText){
-MsgBox, Mixer muss mit Doppelclick ausgewaelt werden.
+MsgBox, You must select a Mixer with dubbleclick.
 } else {
 Gui, Submit
 Gui, Destroy
 OnExit, ExitSub
 If (!Mainbutton){
-MsgBox, Es wurde kein Hotkey ausgewaelt.
+MsgBox, You selected no Hotkey (PTTKey).
 goto, Control
 } else {
 SoundSet, -100, %RowText1%, VOLUME,%RowText%
-TrayTip, PTTany, Mixer mit ID "%RowText%" ist nun Stummgeschalten!`nPush to Talk ist aktiv!`nPush "%Mainbutton%" to Talk, 2
+TrayTip, PTTany, Mixer ID "%RowText%" ist now muted!`nPush To Talk is active!`nPush "%Mainbutton%" To Talk, 2
 goto, hotk
 }
 }
@@ -119,12 +119,14 @@ return
 
 Change:
 SoundSet, +%Vollaut%, %RowText1%, VOLUME,%RowText%
-TrayTip, PTTany, Mixer ist wieder auf %Vollaut% Volume, 2
+TrayTip, PTTany, Mixer is again on %Vollaut% Volume, 2
 Mainbutton = "nope"
 goto, Control
 return
 
 ExitSub:
+SoundSet, -100, %RowText1%, VOLUME,%RowText%
 SoundSet, +%Vollaut%, %RowText1%, VOLUME,%RowText%
-TrayTip, PTTany, Mixer ist wieder auf %Vollaut% Volume, 2
+TrayTip, PTTany, Mixer is again on %Vollaut% Volume, 2, 32
+Sleep 2000
 ExitApp 
