@@ -89,7 +89,7 @@ Vollaut := 100
 Vollaut := RowText2
 }
 If (!RowText){
-MsgBox, You must select a Mixer with dubbleclick.
+MsgBox, You must select a Mixer with doubbleclick.
 } else {
 Gui, Submit
 Gui, Destroy
